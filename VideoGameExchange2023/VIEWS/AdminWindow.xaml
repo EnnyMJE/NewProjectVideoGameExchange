@@ -1,0 +1,21 @@
+﻿<Window x:Class="VideoGameExchange2023.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VideoGameExchange2023"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="550" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+            <Menu HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                <MenuItem Height="50" Header="Exit" Click="Signout_click" Foreground="#FFE31818" Width="80" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></MenuItem>
+                <MenuItem Height="50" Header="Video games" Click="VideoGamesAdmin_click" Width="150" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></MenuItem>
+                <MenuItem Height="50" Header="Consoles" Click="ConsolesAdmin_click" Width="150" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></MenuItem>
+            </Menu>
+        </StackPanel>
+        <Frame x:Name="AdminFrame" Margin="0,55,0,0" NavigationUIVisibility="Hidden"/>
+        <Label x:Name="Lbl_welcomeAdm" Content="" HorizontalAlignment="Center" Height="54" VerticalAlignment="Center" Width="437" FontSize="24"/>
+
+    </Grid>
+</Window>
