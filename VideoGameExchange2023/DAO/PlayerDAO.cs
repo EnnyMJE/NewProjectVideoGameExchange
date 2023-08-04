@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
 using VideoGameExchange2023.POCO;
+using System.Data;
 
 namespace VideoGameExchange2023.DAO
 {
@@ -32,13 +33,13 @@ namespace VideoGameExchange2023.DAO
                     if (reader.Read())
                     {
                         ply = new Player();
-                        ply.Username = reader.GetString(1);
-                        ply.Password = reader.GetString(2);
-                        ply.Credit = reader.GetInt32(3);
-                        ply.Pseudo = reader.GetString(0);
-                        ply.RegistrationDate = reader.GetDateTime(4);
-                        ply.DateOfBirth = reader.GetDateTime(5);
-                        ply.BirthdayGiftGivenYear = reader.GetInt32(6);
+                        ply.Username = reader.GetString("username");
+                        ply.Password = reader.GetString("password");
+                        ply.Credit = reader.GetInt32("credit");
+                        ply.Pseudo = reader.GetString("pseudo");
+                        ply.RegistrationDate = reader.GetDateTime("registrationdate");
+                        ply.DateOfBirth = reader.GetDateTime("dateofbirth");
+                        ply.BirthdayGiftGivenYear = reader.GetInt32("birthdaygiftgivenyear");
                     }
                 }
             }

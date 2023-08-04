@@ -62,5 +62,25 @@ namespace VideoGameExchange2023
 
             Lb_loanBorrower.ItemsSource = loans;
         }
+
+        private void Btn_DeleteCopy_Click(object sender, RoutedEventArgs e)
+        {
+            if(Lb_copyOwn.SelectedItem is Copy selectedCopy)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this copy?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        selectedCopy.DeleteCopy();
+                        RefreshCopyList();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
     }
 }

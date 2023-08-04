@@ -47,7 +47,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,247,0,0" VerticalAlignment="Top" Width="92"/>
+        <Button x:Name="Btn_DeleteCopy" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,247,0,0" VerticalAlignment="Top" Width="92" Click="Btn_DeleteCopy_Click"/>
         <Button Content="Return" HorizontalAlignment="Left" Height="26" Margin="639,353,0,0" VerticalAlignment="Top" Width="92"/>
     </Grid>
 </Page>

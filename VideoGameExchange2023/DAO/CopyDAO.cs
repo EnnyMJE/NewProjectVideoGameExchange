@@ -209,5 +209,36 @@ namespace VideoGameExchange2023.DAO
             return cp;
         }
 
+        public bool DeleteCopy(Copy copy)
+        {
+            bool success = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    string query = "DELETE FROM dbo.Copy WHERE id = @id";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@id", copy.Id);
+                    connection.Open();
+                    int res = cmd.ExecuteNonQuery();
+                    success = res > 0;
+                }
+                catch (SqlException ex)
+                {
+                    // Check if the exception is related to a foreign key constraint violation
+                    if (ex.Number == 547) // Error number for foreign key violation
+                    {
+                        throw new InvalidOperationException("Cannot delete this console as it is referenced by game objects.");
+                    }
+                    else
+                    {
+                        // For other database-related exceptions, you can log or handle them differently.
+                        throw; // Re-throw the exception to indicate an unexpected error.
+                    }
+                }
+            }
+            return success;
+        }
+
     }
 }
