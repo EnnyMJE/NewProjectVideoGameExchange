@@ -99,15 +99,12 @@ namespace VideoGameExchange2023.VIEWS
                     {
                         MessageBox.Show("Error: The cost must be between 1-5 credit", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
                 }
                 else
                 {
                     MessageBox.Show("Error: The cost must be number.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
             }
-
         }
 
         private void Btn_addGame_Click(object sender, RoutedEventArgs e)
@@ -168,10 +165,17 @@ namespace VideoGameExchange2023.VIEWS
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this video game?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    selectedGame.DeleteGame();
-                    RefreshGameList();
-                    Btn_deleteGame.Visibility = Visibility.Collapsed;
-                    Btn_updatecost.Visibility = Visibility.Collapsed;
+                    try
+                    {
+                        selectedGame.DeleteGame();
+                        RefreshGameList();
+                        Btn_deleteGame.Visibility = Visibility.Collapsed;
+                        Btn_updatecost.Visibility = Visibility.Collapsed;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }

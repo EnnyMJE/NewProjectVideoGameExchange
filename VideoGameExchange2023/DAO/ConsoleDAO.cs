@@ -77,13 +77,30 @@ namespace VideoGameExchange2023.DAO
             bool success = false;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM dbo.Console WHERE consolename = @consolename";
-                SqlCommand cmd = new SqlCommand(query, connection);
+                try
+                {
+                    string query = "DELETE FROM dbo.Console WHERE consolename = @consolename";
+                    SqlCommand cmd = new SqlCommand(query, connection);
 
-                cmd.Parameters.AddWithValue("@consolename", cons.ConsoleName);
-                connection.Open();
-                int res = cmd.ExecuteNonQuery();
-                success = res > 0;
+                    cmd.Parameters.AddWithValue("@consolename", cons.ConsoleName);
+                    connection.Open();
+                    int res = cmd.ExecuteNonQuery();
+                    success = res > 0;
+                }
+                catch (SqlException ex)
+                {
+                    // Check if the exception is related to a foreign key constraint violation
+                    if (ex.Number == 547) // Error number for foreign key violation
+                    {
+                        throw new InvalidOperationException("Cannot delete this console as it is referenced by game objects.");
+                    }
+                    else
+                    {
+                        // For other database-related exceptions, you can log or handle them differently.
+                        throw; // Re-throw the exception to indicate an unexpected error.
+                    }
+                }
+
             }
             return success;
         }

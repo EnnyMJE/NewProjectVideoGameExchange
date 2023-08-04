@@ -82,9 +82,16 @@ namespace VideoGameExchange2023.VIEWS
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this console?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    selectedConsole.DeleteConsole();
-                    RefreshConsoleList();
-                    btn_deleteConsole.Visibility=Visibility.Collapsed;
+                    try
+                    {
+                        selectedConsole.DeleteConsole();
+                        RefreshConsoleList();
+                        btn_deleteConsole.Visibility = Visibility.Collapsed;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }

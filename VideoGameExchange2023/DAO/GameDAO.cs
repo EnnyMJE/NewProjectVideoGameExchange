@@ -80,14 +80,30 @@ namespace VideoGameExchange2023.DAO
             bool success = false;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM dbo.Videogames WHERE name = @name and console = @console";
-                SqlCommand cmd = new SqlCommand(query, connection);
+                try
+                {
+                    string query = "DELETE FROM dbo.Videogames WHERE name = @name and console = @console";
+                    SqlCommand cmd = new SqlCommand(query, connection);
 
-                cmd.Parameters.AddWithValue("@name", game.GameName);
-                cmd.Parameters.AddWithValue("@console", game.Console);
-                connection.Open();
-                int res = cmd.ExecuteNonQuery();
-                success = res > 0;
+                    cmd.Parameters.AddWithValue("@name", game.GameName);
+                    cmd.Parameters.AddWithValue("@console", game.Console);
+                    connection.Open();
+                    int res = cmd.ExecuteNonQuery();
+                    success = res > 0;
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 547)
+                    {
+                        throw new InvalidOperationException("Cannot delete this video game as it is referenced by copy objects.");
+                    }
+                    else
+                    {
+                        throw; 
+                    }
+                }
+
+
             }
             return success;
         }
