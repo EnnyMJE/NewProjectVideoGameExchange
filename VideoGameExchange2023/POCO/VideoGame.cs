@@ -23,6 +23,7 @@ namespace VideoGameExchange2023.POCO
         }
 
         public string GameName { get => gameName; set => gameName = value; }
+
         public int CreditCost { get => creditCost; set => creditCost = value; }
         public string Console { get => console; set => console = value; }
 

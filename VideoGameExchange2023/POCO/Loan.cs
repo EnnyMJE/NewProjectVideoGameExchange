@@ -35,7 +35,7 @@ namespace VideoGameExchange2023.POCO
         public Player Owner { get => owner; set => owner = value; }
         public Player Borower { get => borower; set => borower = value; }
         public int Id { get => id; set => id = value; }
-        internal Copy Copy { get => copy; set => copy = value; }
+        public Copy Copy { get => copy; set => copy = value; }
 
         //todo: to bevelopped.
         public bool CalculateBalance()
@@ -47,6 +47,12 @@ namespace VideoGameExchange2023.POCO
         {
             LoanDAO loanDAO = new LoanDAO();
             return loanDAO.AddLoan(this);
+        }
+
+        public static List<Loan> GetLLoansByBorrower(Player borrower)
+        {
+            LoanDAO loanDAO = new LoanDAO();
+            return loanDAO.GetLLoanByPlayer(borrower);
         }
 
     }

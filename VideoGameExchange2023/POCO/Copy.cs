@@ -73,6 +73,16 @@ namespace VideoGameExchange2023.POCO
             CopyDAO copyDAO = new CopyDAO();
             return copyDAO.GetLCopybyPlayer(player);
         }
+        public static List<Copy> GetLCopiesByBorrower(Player player)
+        {
+            CopyDAO copyDAO = new CopyDAO();
+            return copyDAO.GetCopybyBorrower(player);
+        }
 
+        public Copy GetCopyById(int id)
+        {
+            CopyDAO copyDAO = new CopyDAO();
+            return copyDAO.GetCopyById(id);
+        }
     }
 }

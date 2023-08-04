@@ -29,6 +29,7 @@ namespace VideoGameExchange2023
             if (player != null)
             {
                 RefreshCopyList();
+                RefreshLoanList();
                 Lbl_pseudo.Content = player.Pseudo;
                 Lbl_creditBalance.Content = player.Credit;
                 if (player.IsBirthday())
@@ -48,6 +49,18 @@ namespace VideoGameExchange2023
         {
             var copies = Copy.GetLCopiesByPlayer(player);
             Lb_copyOwn.ItemsSource = copies;
+        }
+
+        private void RefreshLoanList()
+        {
+            var loans = Loan.GetLLoansByBorrower(player);
+            foreach (var loan in loans)
+            {
+                loan.StartTime = loan.StartTime.Date; 
+                loan.EndTime = loan.EndTime.Date;     
+            }
+
+            Lb_loanBorrower.ItemsSource = loans;
         }
     }
 }

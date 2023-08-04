@@ -32,7 +32,21 @@
         </ListBox>
 
         <Label Content="Games I'm renting" HorizontalAlignment="Left" Height="32" Margin="87,353,0,0" VerticalAlignment="Top" Width="119"/>
-        <ListBox HorizontalAlignment="Left" Height="70" Margin="246,334,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <ListBox x:Name="Lb_loanBorrower" HorizontalAlignment="Left" Height="70" Margin="246,334,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} -> LoanDate: {1:d} - {2:d}">
+                                <Binding Path="Copy.Game.GameName" />
+                                <Binding Path="StartTime" />
+                                <Binding Path="EndTime" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,247,0,0" VerticalAlignment="Top" Width="92"/>
         <Button Content="Return" HorizontalAlignment="Left" Height="26" Margin="639,353,0,0" VerticalAlignment="Top" Width="92"/>
     </Grid>

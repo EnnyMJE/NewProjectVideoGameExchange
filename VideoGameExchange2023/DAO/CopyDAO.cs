@@ -159,5 +159,55 @@ namespace VideoGameExchange2023.DAO
             return copyList;
         }
 
+        public List<Copy> GetCopybyBorrower(Player pl)
+        {
+            List <Copy> copyList = new List<Copy>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Copy WHERE id IN (SELECT copy FROM dbo.Loan WHERE borrower = @player)", connection);
+                cmd.Parameters.AddWithValue("@player", pl.Pseudo);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Copy copy = new Copy();
+                        copy.Id = reader.GetInt32("id");
+                        string gameName = reader.GetString("videogame");
+                        VideoGame videogame = new VideoGame();
+                        videogame.GameName = gameName;
+                        copy.Game = videogame;
+                        copy.Available = reader.GetBoolean("available");
+                        copyList.Add(copy);
+                    }
+                }
+            }
+            return copyList;
+        }
+
+        public Copy GetCopyById(int idReceived)
+        {
+            Copy cp = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Copy WHERE id = @id", connection);
+                cmd.Parameters.AddWithValue("@id", idReceived);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        cp = new Copy();
+                        cp.Id = reader.GetInt32("id");
+                        string gameName = reader.GetString("videogame");
+                        VideoGame videogame = new VideoGame();
+                        videogame.GameName = gameName;
+                        cp.Game = videogame;
+                    }
+                }
+            }
+            return cp;
+        }
+
     }
 }

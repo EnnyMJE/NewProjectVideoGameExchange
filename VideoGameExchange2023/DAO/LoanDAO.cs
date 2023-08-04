@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,31 @@ namespace VideoGameExchange2023.DAO
                 success = res > 0;
             }
             return success;
+        }
+
+        public List<Loan> GetLLoanByPlayer(Player player)
+        {
+            List<Loan> loanList = new List<Loan>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Loan WHERE borrower = @borrower and ongoing=1", connection);
+                cmd.Parameters.AddWithValue("@borrower", player.Pseudo);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Loan loan = new Loan();
+                        int idCopy = reader.GetInt32("copy");
+                        Copy cp = new Copy().GetCopyById(idCopy);
+                        loan.Copy = cp;
+                        loan.StartTime = reader.GetDateTime("startdate");
+                        loan.EndTime = reader.GetDateTime("enddate");
+                        loanList.Add(loan);
+                    }
+                }
+            }
+            return loanList;
         }
     }
 }
