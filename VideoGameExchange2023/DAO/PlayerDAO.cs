@@ -32,10 +32,10 @@ namespace VideoGameExchange2023.DAO
                     if (reader.Read())
                     {
                         ply = new Player();
-                        ply.Username = reader.GetString(0);
-                        ply.Password = reader.GetString(1);
-                        ply.Credit = reader.GetInt32(2);
-                        ply.Pseudo = reader.GetString(3);
+                        ply.Username = reader.GetString(1);
+                        ply.Password = reader.GetString(2);
+                        ply.Credit = reader.GetInt32(3);
+                        ply.Pseudo = reader.GetString(0);
                         ply.RegistrationDate = reader.GetDateTime(4);
                         ply.DateOfBirth = reader.GetDateTime(5);
                         ply.BirthdayGiftGivenYear = reader.GetInt32(6);
