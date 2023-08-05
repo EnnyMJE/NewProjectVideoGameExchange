@@ -9,13 +9,13 @@
       Title="PlayerHomePage">
 
     <Grid>
-        <Label x:Name="lbl_happybday" HorizontalAlignment="Center" Content="" Margin="0,32,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
-        <Label x:Name="Lbl_pseudo"  HorizontalAlignment="Left" Height="41" Margin="212,101,0,0" VerticalAlignment="Top" Width="154"/>
-        <Label Content="Credit balance" HorizontalAlignment="Left" Height="33" Margin="87,165,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.435,1.895"/>
-        <Label x:Name="lbl_bdaygift" HorizontalAlignment="Left" Content="" Margin="433,149,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
-        <Label x:Name="Lbl_creditBalance" Content="" HorizontalAlignment="Left" Height="43" Margin="206,160,0,0" VerticalAlignment="Top" Width="123"/>
-        <Label Content="My game(s) to lend" HorizontalAlignment="Left" Height="32" Margin="87,244,0,0" VerticalAlignment="Top" Width="119"/>
-        <ListBox x:Name="Lb_copyOwn" HorizontalAlignment="Left" Height="70" Margin="246,225,0,0" VerticalAlignment="Top" Width="343">
+        <Label x:Name="lbl_happybday" HorizontalAlignment="Left" Content="" Margin="280,10,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
+        <Label x:Name="Lbl_pseudo"  HorizontalAlignment="Left" Height="41" Margin="340,64,0,0" VerticalAlignment="Top" Width="154"/>
+        <Label Content="Credit balance" HorizontalAlignment="Left" Height="33" Margin="87,138,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.435,1.895"/>
+        <Label x:Name="lbl_bdaygift" HorizontalAlignment="Left" Content="" Margin="415,130,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
+        <Label x:Name="Lbl_creditBalance" Content="" HorizontalAlignment="Left" Height="44" Margin="212,138,0,0" VerticalAlignment="Top" Width="123"/>
+        <Label Content="My game(s) to lend" HorizontalAlignment="Left" Height="32" Margin="87,207,0,0" VerticalAlignment="Top" Width="119"/>
+        <ListBox x:Name="Lb_copyOwn" HorizontalAlignment="Left" Height="70" Margin="246,0,0,0" VerticalAlignment="Center" Width="343">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -31,8 +31,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Label Content="Games I'm renting" HorizontalAlignment="Left" Height="32" Margin="87,353,0,0" VerticalAlignment="Top" Width="119"/>
-        <ListBox x:Name="Lb_loanBorrower" HorizontalAlignment="Left" Height="70" Margin="246,334,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
+        <Label Content="My current Loan" HorizontalAlignment="Left" Height="32" Margin="87,297,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.535,-1.542"/>
+        <ListBox x:Name="Lb_loanBorrower" HorizontalAlignment="Left" Height="70" Margin="246,278,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -47,7 +47,24 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="Btn_DeleteCopy" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,247,0,0" VerticalAlignment="Top" Width="92" Click="Btn_DeleteCopy_Click"/>
-        <Button Content="Return" HorizontalAlignment="Left" Height="26" Margin="639,353,0,0" VerticalAlignment="Top" Width="92"/>
+        <Button x:Name="Btn_DeleteCopy" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,0,0,0" VerticalAlignment="Center" Width="92" Click="Btn_DeleteCopy_Click"/>
+        <Button x:Name="Btn_Return" Content="Return" HorizontalAlignment="Left" Height="26" Margin="639,297,0,0" VerticalAlignment="Top" Width="92" Click="Btn_Return_Click"/>
+        <Label Content="My previous Loan" HorizontalAlignment="Left" Height="32" Margin="87,377,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.535,-1.542"/>
+        <ListBox x:Name="Lb_loanBorrower_previous" HorizontalAlignment="Left" Height="70" Margin="246,370,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} -> LoanDate: {1:d} - {2:d}">
+                                <Binding Path="Copy.Game.GameName" />
+                                <Binding Path="StartTime" />
+                                <Binding Path="EndTime" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button x:Name="Btn_DeleteOldLoan" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,391,0,0" VerticalAlignment="Top" Width="92" Click="Btn_DeleteOldLoan_Click"/>
     </Grid>
 </Page>

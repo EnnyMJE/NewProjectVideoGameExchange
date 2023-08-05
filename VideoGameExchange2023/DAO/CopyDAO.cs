@@ -121,13 +121,13 @@ namespace VideoGameExchange2023.DAO
             return cp;
         }
 
-        public void UpdateAvailability(Copy cp, bool available)
+        public void UpdateAvailability(Copy cp)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("UPDATE dbo.Copy SET available = @available WHERE id=@id", connection);
                 cmd.Parameters.AddWithValue("@id", cp.Id);
-                cmd.Parameters.AddWithValue("@available", available);
+                cmd.Parameters.AddWithValue("@available", cp.Available);
                 connection.Open();
                 cmd.ExecuteNonQuery();
             }

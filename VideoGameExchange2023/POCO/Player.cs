@@ -110,6 +110,8 @@ namespace VideoGameExchange2023.POCO
             return playerDAO.GetPlayerbyPseudo(pseudo);
         }
 
+
+
         public bool UpdateCredit(int numberToDeduct)
         {
             if (numberToDeduct > this.Credit)
@@ -119,6 +121,13 @@ namespace VideoGameExchange2023.POCO
             PlayerDAO playerDAO1 = new PlayerDAO();
             this.credit -= numberToDeduct;
             return playerDAO1.UpdatePlayerCredit(this.pseudo, this.Credit);
+        }
+
+        public bool AddCredit(int numberToAdd)
+        {
+            PlayerDAO playerDAO = new PlayerDAO();
+            this.credit += numberToAdd;
+            return playerDAO.UpdatePlayerCredit(this.pseudo, this.Credit);
         }
 
 

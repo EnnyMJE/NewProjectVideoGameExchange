@@ -30,6 +30,7 @@ namespace VideoGameExchange2023
             {
                 RefreshCopyList();
                 RefreshLoanList();
+                RefreshOldLoanList();
                 Lbl_pseudo.Content = player.Pseudo;
                 Lbl_creditBalance.Content = player.Credit;
                 if (player.IsBirthday())
@@ -63,6 +64,18 @@ namespace VideoGameExchange2023
             Lb_loanBorrower.ItemsSource = loans;
         }
 
+        private void RefreshOldLoanList()
+        {
+            var loans = Loan.GetLOldLoansByBorrower(player);
+            foreach (var loan in loans)
+            {
+                loan.StartTime = loan.StartTime.Date;
+                loan.EndTime = loan.EndTime.Date;
+            }
+
+            Lb_loanBorrower_previous.ItemsSource = loans;
+        }
+
         private void Btn_DeleteCopy_Click(object sender, RoutedEventArgs e)
         {
             if(Lb_copyOwn.SelectedItem is Copy selectedCopy)
@@ -74,6 +87,46 @@ namespace VideoGameExchange2023
                     {
                         selectedCopy.DeleteCopy();
                         RefreshCopyList();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+        private void Btn_Return_Click(object sender, RoutedEventArgs e)
+        {
+            if (Lb_loanBorrower.SelectedItem is Loan selectedLoan)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to return this game?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        selectedLoan.Copy.ReleaseCopy();
+                        RefreshLoanList();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+        private void Btn_DeleteOldLoan_Click(object sender, RoutedEventArgs e)
+        {
+            if (Lb_loanBorrower_previous.SelectedItem is Loan selectedLoan)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        selectedLoan.DeleteLoan();
+                        RefreshOldLoanList();
                     }
                     catch (InvalidOperationException ex)
                     {

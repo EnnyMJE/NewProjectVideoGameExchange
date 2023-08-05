@@ -58,7 +58,8 @@ namespace VideoGameExchange2023.POCO
             if (borrowed)
             {
                 CopyDAO copyDAO = new CopyDAO();
-                copyDAO.UpdateAvailability(this, false);
+                this.Available = false;
+                copyDAO.UpdateAvailability(this);
             }
         }
 
@@ -83,6 +84,16 @@ namespace VideoGameExchange2023.POCO
         {
             CopyDAO copyDAO = new CopyDAO();
             return copyDAO.DeleteCopy(this);
+        }
+
+        public void ReleaseCopy()
+        {
+            Loan loan = new Loan();
+            loan.UpdateLoanStatus(this);
+            CopyDAO copyDAO = new CopyDAO();
+            this.Available = true;
+            copyDAO.UpdateAvailability(this);
+
         }
     }
 }

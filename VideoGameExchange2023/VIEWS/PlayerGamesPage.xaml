@@ -35,12 +35,10 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <Button Visibility="Hidden" x:Name="Btn_provideCopy" Grid.Column="1" Content="I have this game" HorizontalAlignment="Center" Height="60" Margin="0,62,0,0" VerticalAlignment="Top" Width="168" Click="Btn_provideCopy_Click"/>
-            <Label Content="Number of copies" HorizontalAlignment="Left" Height="37" Margin="31,269,0,0" VerticalAlignment="Top" Width="134"/>
-            <Label x:Name="Lbl_nbrCopy" HorizontalAlignment="Left" Margin="209,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.178,0.414"/>
+            <Label x:Name="Lbl_nbrCopy" HorizontalAlignment="Left" Margin="52,282,0,0" VerticalAlignment="Top"/>
             <Button Visibility="Hidden" x:Name="Btn_rentGame" Grid.Column="1" Content="Rent this game" HorizontalAlignment="Center" Height="57" Margin="0,162,0,0" VerticalAlignment="Top" Width="168" Click="Btn_rentGame_Click"/>
             <Button Visibility="Hidden" x:Name="Btn_bookGame" Grid.Column="1" Content="Book this game" HorizontalAlignment="Center" Height="54" Margin="0,260,0,0" VerticalAlignment="Top" Width="168"/>
-            <Label Content="Available copies" HorizontalAlignment="Left" Height="37" Margin="31,311,0,0" VerticalAlignment="Top" Width="134"/>
-            <Label x:Name="Lbl_nbrCopyAvailable" HorizontalAlignment="Left" Margin="209,320,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.178,0.414"/>
+            <Label x:Name="Lbl_nbrCopyAvailable" HorizontalAlignment="Left" Margin="52,325,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.417,-1.125" />
         </Grid>
     </Grid>
 </Page>

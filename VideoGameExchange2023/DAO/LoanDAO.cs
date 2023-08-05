@@ -39,19 +39,21 @@ namespace VideoGameExchange2023.DAO
             return success;
         }
 
-        public List<Loan> GetLLoanByPlayer(Player player)
+        public List<Loan> GetLLoanByPlayer(Player player, bool ongoing)
         {
             List<Loan> loanList = new List<Loan>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Loan WHERE borrower = @borrower and ongoing=1", connection);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Loan WHERE borrower = @borrower and ongoing=@ongoing", connection);
                 cmd.Parameters.AddWithValue("@borrower", player.Pseudo);
+                cmd.Parameters.AddWithValue("@ongoing", ongoing);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Loan loan = new Loan();
+                        loan.Id = reader.GetInt32("id");
                         int idCopy = reader.GetInt32("copy");
                         Copy cp = new Copy().GetCopyById(idCopy);
                         loan.Copy = cp;
@@ -63,5 +65,48 @@ namespace VideoGameExchange2023.DAO
             }
             return loanList;
         }
+
+        public void UpdateLoanStatus(Copy copy)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            { 
+                SqlCommand cmd = new SqlCommand("UPDATE dbo.Loan SET ongoing = 0 WHERE copy=@copy AND ongoing=1", connection);
+                cmd.Parameters.AddWithValue("@copy", copy.Id);
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public bool DeleteLoan(Loan loan)
+        {
+            bool success = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    string query = "DELETE FROM dbo.Loan WHERE id = @id";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@id", loan.Id);
+                    connection.Open();
+                    int res = cmd.ExecuteNonQuery();
+                    success = res > 0;
+                }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 547)
+                    {
+                        throw new InvalidOperationException("Cannot delete this console as it is referenced by game objects.");
+                    }
+                    else
+                    {
+                        throw; 
+                    }
+                }
+            }
+            return success;
+        }
+
+
     }
 }

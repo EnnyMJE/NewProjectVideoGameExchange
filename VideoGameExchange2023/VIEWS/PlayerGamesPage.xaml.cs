@@ -41,10 +41,16 @@ namespace VideoGameExchange2023
             if (LB_playerGames.SelectedItem is VideoGame selectedGame)
             {
                 int nbr = selectedGame.CopyAvailable().Count;
-                Lbl_nbrCopy.Content = nbr;
+                Lbl_nbrCopy.Content = $"Number of copy : {nbr}";
                 int nbr_av = selectedGame.nbrCopyAvailable();
-                Lbl_nbrCopyAvailable.Content = nbr_av;
-                if (nbr > 0)
+                Lbl_nbrCopyAvailable.Content = $"Copy availlable : {nbr_av}";
+                if (player.Credit <= 0)
+                {
+                    Btn_provideCopy.Visibility = Visibility.Visible;
+                    Btn_rentGame.Visibility = Visibility.Hidden;
+                    Btn_bookGame.Visibility = Visibility.Hidden;
+                }
+                else if (nbr > 0)
                 {
                     if (nbr_av > 0)
                     {
@@ -78,7 +84,7 @@ namespace VideoGameExchange2023
             }
             else
             {
-                MessageBox.Show("Error: You already put this game to rent", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error: You own this game", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -90,7 +96,7 @@ namespace VideoGameExchange2023
                 bool IsOwner = cp.IsOwner();
                 if (IsOwner)
                 {
-                    MessageBox.Show("Error: You can't rent the game you lent", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error: You can't rent the game you own", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 else
@@ -109,6 +115,7 @@ namespace VideoGameExchange2023
                     cp.borrow(loan);
                     MessageBox.Show("This copy is now rented to you", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     player.UpdateCredit(selectedGame.CreditCost);
+                    owner.AddCredit(selectedGame.CreditCost);
                     return;
                 }
             }

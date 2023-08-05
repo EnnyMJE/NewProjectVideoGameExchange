@@ -59,9 +59,9 @@ namespace VideoGameExchange2023.DAO
                     if (reader.Read())
                     {
                         ply = new Player();
-                        ply.Username = reader.GetString(0);
-                        ply.Credit = reader.GetInt32(2);
-                        ply.Pseudo = reader.GetString(3);
+                        ply.Username = reader.GetString("username");
+                        ply.Credit = reader.GetInt32("credit");
+                        ply.Pseudo = reader.GetString("pseudo");
                     }
                 }
             }

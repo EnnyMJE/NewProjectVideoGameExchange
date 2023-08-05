@@ -52,7 +52,25 @@ namespace VideoGameExchange2023.POCO
         public static List<Loan> GetLLoansByBorrower(Player borrower)
         {
             LoanDAO loanDAO = new LoanDAO();
-            return loanDAO.GetLLoanByPlayer(borrower);
+            return loanDAO.GetLLoanByPlayer(borrower, true);
+        }
+
+        public static List<Loan> GetLOldLoansByBorrower(Player borrower)
+        {
+            LoanDAO loanDAO = new LoanDAO();
+            return loanDAO.GetLLoanByPlayer(borrower, false);
+        }
+
+        public void UpdateLoanStatus(Copy copy)
+        {
+            LoanDAO loanDAO = new LoanDAO();
+            loanDAO.UpdateLoanStatus(copy);
+        }
+
+        public bool DeleteLoan()
+        {
+            LoanDAO loanDAO = new LoanDAO();
+            return loanDAO.DeleteLoan(this);
         }
 
     }
