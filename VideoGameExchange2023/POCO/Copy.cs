@@ -86,14 +86,33 @@ namespace VideoGameExchange2023.POCO
             return copyDAO.DeleteCopy(this);
         }
 
-        public void ReleaseCopy()
+        public void ReleaseCopy(Loan loan)
         {
-            Loan loan = new Loan();
-            loan.UpdateLoanStatus(this);
-            CopyDAO copyDAO = new CopyDAO();
-            this.Available = true;
-            copyDAO.UpdateAvailability(this);
-
+            loan.UpdateLoanToNonActive();
+            DateTime currentDate = DateTime.Today;
+            if(currentDate > loan.EndTime)
+            {
+                int dayslate = (int)(currentDate - loan.EndTime).TotalDays;
+                int lateCost = dayslate * 5;
+                loan.Borrower.UpdateCredit(lateCost);
+                loan.Owner.AddCredit(lateCost);
+            }
+            Booking booking = new Booking().SendPriorityBooking(this.Game);
+            if(booking != null)
+            {
+                Player borrower = booking.FutureBorrower;
+                DateTime startDate = DateTime.Today;
+                DateTime endDate = DateTime.Today.AddDays(7);
+                Loan newLoan = new Loan(startDate,endDate, true,this, loan.Owner, borrower);
+                this.borrow(newLoan);
+                booking.DeleteBooking();
+            }
+            else
+            {
+                CopyDAO copyDAO = new CopyDAO();
+                this.Available = true;
+                copyDAO.UpdateAvailability(this);
+            }
         }
     }
 }

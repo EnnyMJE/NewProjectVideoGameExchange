@@ -31,6 +31,7 @@ namespace VideoGameExchange2023
                 RefreshCopyList();
                 RefreshLoanList();
                 RefreshOldLoanList();
+                RefreshBookingList();
                 Lbl_pseudo.Content = player.Pseudo;
                 Lbl_creditBalance.Content = player.Credit;
                 if (player.IsBirthday())
@@ -60,7 +61,6 @@ namespace VideoGameExchange2023
                 loan.StartTime = loan.StartTime.Date; 
                 loan.EndTime = loan.EndTime.Date;     
             }
-
             Lb_loanBorrower.ItemsSource = loans;
         }
 
@@ -72,8 +72,17 @@ namespace VideoGameExchange2023
                 loan.StartTime = loan.StartTime.Date;
                 loan.EndTime = loan.EndTime.Date;
             }
-
             Lb_loanBorrower_previous.ItemsSource = loans;
+        }
+
+        private void RefreshBookingList()
+        {
+            var bookings = Booking.GetLBookingByPlayer(player);
+            foreach (var booking in bookings)
+            {
+                booking.BookingDate = booking.BookingDate.Date;
+            }
+            Lb_booking.ItemsSource = bookings;
         }
 
         private void Btn_DeleteCopy_Click(object sender, RoutedEventArgs e)
@@ -105,8 +114,9 @@ namespace VideoGameExchange2023
                 {
                     try
                     {
-                        selectedLoan.Copy.ReleaseCopy();
+                        selectedLoan.Copy.ReleaseCopy(selectedLoan);
                         RefreshLoanList();
+                        RefreshOldLoanList();
                     }
                     catch (InvalidOperationException ex)
                     {
@@ -127,6 +137,26 @@ namespace VideoGameExchange2023
                     {
                         selectedLoan.DeleteLoan();
                         RefreshOldLoanList();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+        private void Btn_CancelBooking_Click(object sender, RoutedEventArgs e)
+        {
+            if(Lb_booking.SelectedItem is Booking selectedBooking)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to cancel the booking?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        selectedBooking.DeleteBooking();
+                        RefreshBookingList();
                     }
                     catch (InvalidOperationException ex)
                     {

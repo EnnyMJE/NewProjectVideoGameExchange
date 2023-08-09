@@ -15,7 +15,7 @@ namespace VideoGameExchange2023.POCO
         private bool ongoing;
         private Copy copy;
         private Player owner;
-        private Player borower;
+        private Player borrower;
 
         public Loan() { }
 
@@ -26,14 +26,25 @@ namespace VideoGameExchange2023.POCO
             this.Ongoing = ongoing;
             this.Copy = copy;
             this.Owner = owner;
-            this.Borower = borower;
+            this.Borrower = borower;
+        }
+
+        public Loan(int id, DateTime startTime, DateTime endTime, bool ongoing, Copy copy, Player owner, Player borrower)
+        {
+            this.id = id;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.ongoing = ongoing;
+            this.copy = copy;
+            this.owner = owner;
+            this.borrower = borrower;
         }
 
         public DateTime StartTime { get => startTime; set => startTime = value; }
         public DateTime EndTime { get => endTime; set => endTime = value; }
         public bool Ongoing { get => ongoing; set => ongoing = value; }
         public Player Owner { get => owner; set => owner = value; }
-        public Player Borower { get => borower; set => borower = value; }
+        public Player Borrower { get => borrower; set => borrower = value; }
         public int Id { get => id; set => id = value; }
         public Copy Copy { get => copy; set => copy = value; }
 
@@ -46,7 +57,13 @@ namespace VideoGameExchange2023.POCO
         public bool AddNewLoan()
         {
             LoanDAO loanDAO = new LoanDAO();
-            return loanDAO.AddLoan(this);
+            bool borrowed = loanDAO.AddLoan(this);
+            if (borrowed)
+            {
+                this.Owner.AddCredit(this.Copy.Game.CreditCost);
+                this.borrower.UpdateCredit(this.Copy.Game.CreditCost);
+            }
+            return borrowed;
         }
 
         public static List<Loan> GetLLoansByBorrower(Player borrower)
@@ -61,10 +78,11 @@ namespace VideoGameExchange2023.POCO
             return loanDAO.GetLLoanByPlayer(borrower, false);
         }
 
-        public void UpdateLoanStatus(Copy copy)
+        public void UpdateLoanToNonActive()
         {
+            this.Ongoing = false;
             LoanDAO loanDAO = new LoanDAO();
-            loanDAO.UpdateLoanStatus(copy);
+            loanDAO.UpdateLoanStatus(this);
         }
 
         public bool DeleteLoan()

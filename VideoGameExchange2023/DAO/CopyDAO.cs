@@ -148,10 +148,10 @@ namespace VideoGameExchange2023.DAO
                         Copy copy = new Copy();
                         copy.Id = reader.GetInt32("id");
                         string gameName = reader.GetString("videogame");
-                        VideoGame videogame = new VideoGame();
-                        videogame.GameName = gameName;
+                        VideoGame videogame = new VideoGame().GetGameByName(gameName);
                         copy.Game = videogame;
                         copy.Available = reader.GetBoolean("available");
+                        copy.Owner = pl;
                         copyList.Add(copy);
                     }
                 }
@@ -174,10 +174,12 @@ namespace VideoGameExchange2023.DAO
                         Copy copy = new Copy();
                         copy.Id = reader.GetInt32("id");
                         string gameName = reader.GetString("videogame");
-                        VideoGame videogame = new VideoGame();
-                        videogame.GameName = gameName;
+                        VideoGame videogame = new VideoGame().GetGameByName(gameName);
                         copy.Game = videogame;
                         copy.Available = reader.GetBoolean("available");
+                        string ownerPseudo = reader.GetString("owner");
+                        Player player = new Player().getPlayerByPseudo(ownerPseudo);
+                        copy.Owner = player;
                         copyList.Add(copy);
                     }
                 }
@@ -200,9 +202,12 @@ namespace VideoGameExchange2023.DAO
                         cp = new Copy();
                         cp.Id = reader.GetInt32("id");
                         string gameName = reader.GetString("videogame");
-                        VideoGame videogame = new VideoGame();
-                        videogame.GameName = gameName;
+                        VideoGame videogame = new VideoGame().GetGameByName(gameName);
                         cp.Game = videogame;
+                        string ownerPseudo = reader.GetString("owner");
+                        Player player = new Player().getPlayerByPseudo(ownerPseudo);
+                        cp.Owner = player;
+                        cp.Available = reader.GetBoolean("available");
                     }
                 }
             }

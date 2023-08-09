@@ -70,8 +70,18 @@ namespace VideoGameExchange2023.POCO
         {
             Copy cp = new Copy();
             return cp.copyAvailable(this);
-
         }
 
+        public bool AlreadyRented(Player player)
+        {
+            LoanDAO loanDAO = new LoanDAO();
+            return loanDAO.IsGameRentedByPlayer(this, player);
+        }
+
+        public VideoGame GetGameByName(string gamename)
+        {
+            GameDAO gameDAO = new GameDAO();
+            return gameDAO.GetGameByName(gamename);
+        }
     }
 }

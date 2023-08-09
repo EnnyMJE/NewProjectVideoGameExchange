@@ -130,6 +130,25 @@ namespace VideoGameExchange2023.POCO
             return playerDAO.UpdatePlayerCredit(this.pseudo, this.Credit);
         }
 
+        public DateTime Birthdate { get; set; }
+
+        public int Age
+        {
+            get
+            {
+                DateTime currentDate = DateTime.Today;
+                int age = currentDate.Year - Birthdate.Year;
+
+                // Adjust age if the birthday hasn't occurred yet this year
+                if (Birthdate > currentDate.AddYears(-age))
+                {
+                    age--;
+                }
+
+                return age;
+            }
+        }
+
 
     }
 }

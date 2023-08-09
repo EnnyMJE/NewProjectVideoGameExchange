@@ -5,17 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoGameExchange2023"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="800"
       Title="PlayerHomePage">
 
     <Grid>
         <Label x:Name="lbl_happybday" HorizontalAlignment="Left" Content="" Margin="280,10,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
         <Label x:Name="Lbl_pseudo"  HorizontalAlignment="Left" Height="41" Margin="340,64,0,0" VerticalAlignment="Top" Width="154"/>
-        <Label Content="Credit balance" HorizontalAlignment="Left" Height="33" Margin="87,138,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.435,1.895"/>
+        <Label Content="Credit balance" HorizontalAlignment="Left" Height="33" Margin="87,120,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.435,1.895"/>
         <Label x:Name="lbl_bdaygift" HorizontalAlignment="Left" Content="" Margin="415,130,0,0" VerticalAlignment="Top" Height="49" Width="270"/>
-        <Label x:Name="Lbl_creditBalance" Content="" HorizontalAlignment="Left" Height="44" Margin="212,138,0,0" VerticalAlignment="Top" Width="123"/>
+        <Label x:Name="Lbl_creditBalance" Content="" HorizontalAlignment="Left" Height="38" Margin="221,118,0,0" VerticalAlignment="Top" Width="105"/>
         <Label Content="My game(s) to lend" HorizontalAlignment="Left" Height="32" Margin="87,207,0,0" VerticalAlignment="Top" Width="119"/>
-        <ListBox x:Name="Lb_copyOwn" HorizontalAlignment="Left" Height="70" Margin="246,0,0,0" VerticalAlignment="Center" Width="343">
+        <ListBox x:Name="Lb_copyOwn" HorizontalAlignment="Left" Height="70" Margin="244,188,0,0" VerticalAlignment="Top" Width="342">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -47,7 +47,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="Btn_DeleteCopy" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,0,0,0" VerticalAlignment="Center" Width="92" Click="Btn_DeleteCopy_Click"/>
+        <Button x:Name="Btn_DeleteCopy" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,210,0,0" VerticalAlignment="Top" Width="92" Click="Btn_DeleteCopy_Click" RenderTransformOrigin="0.453,-1.897"/>
         <Button x:Name="Btn_Return" Content="Return" HorizontalAlignment="Left" Height="26" Margin="639,297,0,0" VerticalAlignment="Top" Width="92" Click="Btn_Return_Click"/>
         <Label Content="My previous Loan" HorizontalAlignment="Left" Height="32" Margin="87,377,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.535,-1.542"/>
         <ListBox x:Name="Lb_loanBorrower_previous" HorizontalAlignment="Left" Height="70" Margin="246,370,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
@@ -66,5 +66,21 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button x:Name="Btn_DeleteOldLoan" Content="Delete" HorizontalAlignment="Left" Height="26" Margin="639,391,0,0" VerticalAlignment="Top" Width="92" Click="Btn_DeleteOldLoan_Click"/>
+        <Label Content="My booking" HorizontalAlignment="Left" Height="32" Margin="87,473,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.535,-1.542"/>
+        <ListBox x:Name="Lb_booking" HorizontalAlignment="Left" Height="70" Margin="246,456,0,0" VerticalAlignment="Top" Width="343" d:ItemsSource="{d:SampleData ItemCount=5}" Language="en-GB">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} : {1:d}">
+                                <Binding Path="Game.GameName" />
+                                <Binding Path="BookingDate" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button x:Name="Btn_CancelBooking" Content="Cancel" HorizontalAlignment="Left" Height="26" Margin="639,473,0,0" VerticalAlignment="Top" Width="92" Click="Btn_CancelBooking_Click" />
     </Grid>
 </Page>

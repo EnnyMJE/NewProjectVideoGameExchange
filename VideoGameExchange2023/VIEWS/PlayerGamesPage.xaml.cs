@@ -92,6 +92,13 @@ namespace VideoGameExchange2023
         {
             if (LB_playerGames.SelectedItem is VideoGame selectedGame)
             {
+                bool alreadyRented = selectedGame.AlreadyRented(player);
+                if (alreadyRented)
+                {
+                    MessageBox.Show("Error: You have already rented this game.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 Copy cp = new Copy(selectedGame,player);
                 bool IsOwner = cp.IsOwner();
                 if (IsOwner)
@@ -114,9 +121,52 @@ namespace VideoGameExchange2023
                     Loan loan = new Loan(startTime, endTime, true, cp, owner, borower);
                     cp.borrow(loan);
                     MessageBox.Show("This copy is now rented to you", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    player.UpdateCredit(selectedGame.CreditCost);
-                    owner.AddCredit(selectedGame.CreditCost);
+                    
                     return;
+                }
+            }
+        }
+
+        private void Btn_bookGame_Click(object sender, RoutedEventArgs e)
+        {
+            if (LB_playerGames.SelectedItem is VideoGame selectedGame)
+            {
+                bool alreadyRented = selectedGame.AlreadyRented(player);
+                if (alreadyRented)
+                {
+                    MessageBox.Show("Error: You can't book a game you're curently renting.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                bool alreadyBooked = Booking.PlayerHasBookedGame(player, selectedGame);
+                if (alreadyBooked)
+                {
+                    MessageBox.Show("Error: You have already booked this game.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+
+                Copy cp = new Copy(selectedGame, player);
+                bool IsOwner = cp.IsOwner();
+                if (IsOwner)
+                {
+                    MessageBox.Show("Error: You can't book the game you own", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    if (player.Credit < selectedGame.CreditCost)
+                    {
+                        MessageBox.Show("Error: your credit balance is not enough for this game", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    DateTime bookdate = DateTime.Today;
+                    Booking book = new Booking(bookdate, player, selectedGame);
+                    bool isBooked = book.AddNewBooking();
+                    if (isBooked)
+                    {
+                        MessageBox.Show("This game is booked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
         }

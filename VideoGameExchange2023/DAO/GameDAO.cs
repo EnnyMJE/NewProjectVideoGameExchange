@@ -125,5 +125,26 @@ namespace VideoGameExchange2023.DAO
             return success;
         }
 
+        public VideoGame GetGameByName(string name)
+        {
+            VideoGame game = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Videogames WHERE name = @name", connection);
+                cmd.Parameters.AddWithValue("@name", name);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        game = new VideoGame();
+                        game.CreditCost = reader.GetInt32("creditcost");
+                        game.Console = reader.GetString("console");
+                        game.GameName = name;
+                    }
+                }
+            }
+            return game;
+        }
     }
 }
