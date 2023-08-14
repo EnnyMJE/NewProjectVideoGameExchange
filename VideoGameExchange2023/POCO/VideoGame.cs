@@ -23,7 +23,6 @@ namespace VideoGameExchange2023.POCO
         }
 
         public string GameName { get => gameName; set => gameName = value; }
-
         public int CreditCost { get => creditCost; set => creditCost = value; }
         public string Console { get => console; set => console = value; }
 
@@ -39,8 +38,6 @@ namespace VideoGameExchange2023.POCO
             if (gameDAO.IsGameExisted(this)) return false;
             else return gameDAO.AddGame(this);
         }
-
-    
 
         public bool DeleteGame()
         {

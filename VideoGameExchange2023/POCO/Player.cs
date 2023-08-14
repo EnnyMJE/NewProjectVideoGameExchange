@@ -21,11 +21,6 @@ namespace VideoGameExchange2023.POCO
         public DateTime RegistrationDate { get => registrationDate; set => registrationDate = value; }
         public int BirthdayGiftGivenYear { get => birthdayGiftGivenYear; set => birthdayGiftGivenYear = value; }
 
-        public bool LoanAllowed() //todo to be developed 
-        {
-            return true;
-        }
-
         public Player() { }
 
         public Player(string username, string password)
@@ -110,8 +105,6 @@ namespace VideoGameExchange2023.POCO
             return playerDAO.GetPlayerbyPseudo(pseudo);
         }
 
-
-
         public bool UpdateCredit(int numberToDeduct)
         {
             if (numberToDeduct > this.Credit)
@@ -130,21 +123,18 @@ namespace VideoGameExchange2023.POCO
             return playerDAO.UpdatePlayerCredit(this.pseudo, this.Credit);
         }
 
-        public DateTime Birthdate { get; set; }
 
         public int Age
         {
             get
             {
                 DateTime currentDate = DateTime.Today;
-                int age = currentDate.Year - Birthdate.Year;
+                int age = currentDate.Year - this.DateOfBirth.Year;
 
-                // Adjust age if the birthday hasn't occurred yet this year
-                if (Birthdate > currentDate.AddYears(-age))
+                if (this.DateOfBirth > currentDate.AddYears(-age))
                 {
                     age--;
                 }
-
                 return age;
             }
         }

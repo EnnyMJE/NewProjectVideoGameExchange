@@ -22,11 +22,5 @@ namespace VideoGameExchange2023.POCO
             Admin ad = adminDAO.GetAdmin(this.Username, this.Password);
             return ad;
         }
-
-        public int NbrAdmin()
-        {
-            AdminDAO db = new AdminDAO();
-            return db.nbrAdm();
-        }
     }
 }

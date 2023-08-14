@@ -48,12 +48,6 @@ namespace VideoGameExchange2023.POCO
         public int Id { get => id; set => id = value; }
         public Copy Copy { get => copy; set => copy = value; }
 
-        //todo: to bevelopped.
-        public bool CalculateBalance()
-        {
-            return true;
-        }
-
         public bool AddNewLoan()
         {
             LoanDAO loanDAO = new LoanDAO();
