@@ -71,7 +71,7 @@ namespace VideoGameExchange2023.POCO
                 .ThenBy(booking => booking.BookingDate)
                 .ThenBy(booking => booking.FutureBorrower.RegistrationDate)
                 .ThenByDescending(booking => booking.FutureBorrower.Age)
-                .ThenBy(booking => Guid.NewGuid()) // Randomize if all other criteria are the same
+                .ThenBy(booking => Guid.NewGuid()) // Randomize
                 .ToList();
 
             //to make sure by the time time a booking object is choosen, the player still have enough credit to afford related game. 
